@@ -67,7 +67,7 @@ class ProductController extends Controller
         /** @var App/Models/User */
         $user = Auth::user();
         $user->favorites()->toggle($productId);
-        return response();
+        return response()->json();
         // if (in_array($productId, $favorites)) {
         //     $user->favorites()->detach($productId);
         //     return response()->json(['status' => 'removed']);
