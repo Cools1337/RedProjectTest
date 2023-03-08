@@ -5,7 +5,7 @@
 @endphp
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
-    
+    $(document).ready(function() {
         $('.toggle-favorites').click(function(e) {
             e.preventDefault();
             var button = $(this);
@@ -15,13 +15,15 @@
                 url: url,
                 type: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept' : 'application/json'
                 },
                 data: {
                     'product_id': productId
                 },
                 success: function(response) {
-                    if (button.text === 'Удалить из избранного') {
+                    console.log(button.text())
+                    if (button.text() === 'Удалить из избранного') {
                         button.text('Добавить в избранное');
                     } else {
                         button.text('Удалить из избранного');
@@ -32,6 +34,7 @@
                 }
             });
         });
+    });
 </script>
 @section('content')
     <div class="container">
@@ -48,9 +51,7 @@
                             @endforeach
                             <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary">Подробнее</a>
                             <button class="btn btn-outline-primary toggle-favorites" data-product-id="{{ $product->id }}"
-                                data-url="{{ route('favorites.toggle') }}">
-                                {{ $user->isFavorite($product) ? 'Удалить из избранного' : 'Добавить в избранное' }}
-                            </button>
+                                data-url="{{ route('favorites.toggle') }}">{{ $user->isFavorite($product) ? 'Удалить из избранного' : 'Добавить в избранное' }}</button>
                         </div>
                     </div>
                 </div>
