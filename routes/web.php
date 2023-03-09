@@ -23,15 +23,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/popular-categories', [CategoryController::class, 'popularShow'])->name('сategories.popular');
-Route::get('/categories', [CategoryController::class, 'show'])->name('categories.show');
-Route::post('/favorites/toggle', [ProductController::class, 'toggleFavorites'])->name('favorites.toggle');
 Route::get('/products/{id}/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 Route::post('/products/{id}/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
+
+
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
+
+Route::get('/categories', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('/popular-categories', [CategoryController::class, 'popularShow'])->name('сategories.popular');
+
+Route::post('/favorites/toggle', [ProductController::class, 'toggleFavorites'])->name('favorites.toggle');
 
 
 
