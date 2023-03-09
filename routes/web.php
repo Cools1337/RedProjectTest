@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PopularCategoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +26,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/popular-categories', [PopularCategoryController::class, 'index'])->name('popularCategories.index');
+Route::get('/popular-categories', [CategoryController::class, 'popularShow'])->name('сategories.popular');
 Route::get('/categories', [CategoryController::class, 'show'])->name('categories.show');
 Route::post('/favorites/toggle', [ProductController::class, 'toggleFavorites'])->name('favorites.toggle');
+Route::get('/products/{id}/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+Route::post('/products/{id}/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/search', [ProductController::class, 'search'])->name('products.search');
+
+
 
 

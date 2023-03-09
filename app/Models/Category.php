@@ -10,16 +10,12 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'reviews_count'
     ];
 
     public function products()
     {
         return $this->belongsToMany(Product::class, 'products_categories')->withTimestamps();
-    }
-
-    public function popular()
-    {
-        return $this->hasOne(PopularCategory::class);
     }
 }

@@ -9,9 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Category;
-use App\Models\PopularCategory;
 use App\Models\Review;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class UpdatePopularCategoriesCount implements ShouldQueue
 {
@@ -30,19 +29,49 @@ class UpdatePopularCategoriesCount implements ShouldQueue
      */
     public function handle(): void
     {
-        $categories = Category::all();
+        // 
+         Category::query()
+         ->leftJoin('products_categories', 'categories.id', '=', 'products_categories.category_id')
+         ->leftJoin('products', 'products_categories.product_id', '=', 'products.id')
+         ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+         ->select('categories.id', DB::raw('COUNT(DISTINCT reviews.id) as reviews_count'))
+         ->groupBy('categories.id')
+         ->get()
+         ->each(function($category) {
+             Category::updateOrCreate(
+                 ['id' => $category->id],
+                 ['reviews_count' => $category->reviews_count]
+             );
+         });
 
-        foreach ($categories as $category) {
-            $reviewsCount = Review::whereHas('product', function ($query) use ($category) {
-                $query->whereHas('categories', function ($query) use ($category) {
-                    $query->where('categories.id', $category->id);
-                });
-            })->count();
+        
+        // $reviewsCountByCategory = DB::table('categories')
+        // ->select('categories.id', DB::raw('COUNT(reviews.id) as reviews_count'))
+        // ->leftJoin('products_categories', 'categories.id', '=', 'products_categories.category_id')
+        // ->leftJoin('products', 'products_categories.product_id', '=', 'products.id')
+        // ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+        // ->groupBy('categories.id')
+        // ->get();
+            
+        // foreach ($reviewsCountByCategory as $reviewsCount) {
+        //     Category::where('id', $reviewsCount->id)
+        //         ->update(['reviews_count' => $reviewsCount->reviews_count]);
+        // }
     
-            PopularCategory::updateOrCreate(
-                ['category_id' => $category->id],
-                ['reviews_count' => $reviewsCount]
-            );
-        }
+    
+
+        // $categories = Category::all();
+
+        //  foreach ($categories as $category) {
+        //    $reviewsCount = Review::whereHas('product', function ($query) use ($category) {
+        //           $query->whereHas('categories', function ($query) use ($category) {
+        //               $query->where('categories.id', $category->id);
+        //           });
+        //       })->count();
+        //       Category::updateOrCreate(
+        //           ['id' => $category->id],
+        //           ['reviews_count' => $reviewsCount]
+        //       );
+        //  }
     }
 }
