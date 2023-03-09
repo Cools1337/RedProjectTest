@@ -11,6 +11,5 @@
                 <p class="card-text"><strong>Категория:</strong> {{ $product->categories()->first()->name }}</p>
             </div>
         </div>
-        @include('review')
     </div>
 @endsection

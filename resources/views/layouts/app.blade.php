@@ -35,11 +35,11 @@
                             <a class="navbar-brand" href="{{ route('products.index') }}">Товары</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="{{ route('popularCategories.index') }}">Популярные категории</a>
+                            <a class="nav-link" href="{{ route('сategories.popular') }}">Популярные категории</a>
                         </li>
                         <li class="nav-item">
-                            <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+                            <form action="{{ route('products.search') }}" method="GET" class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" name="query">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
                             </form>
                         </li>
@@ -93,5 +93,3 @@
 </body>
 
 </html>
-
-

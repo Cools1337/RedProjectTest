@@ -16,7 +16,7 @@
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Accept' : 'application/json'
+                    'Accept': 'application/json'
                 },
                 data: {
                     'product_id': productId
@@ -50,6 +50,7 @@
                                 <h6 class="card-subtitle mb-2 text-muted">{{ $category->name }}</h6>
                             @endforeach
                             <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary">Подробнее</a>
+                            <a href="{{ route('reviews.create', $product->id) }}" class="btn btn-primary">Оставить отзыв</a>
                             <button class="btn btn-outline-primary toggle-favorites" data-product-id="{{ $product->id }}"
                                 data-url="{{ route('favorites.toggle') }}">{{ $user->isFavorite($product) ? 'Удалить из избранного' : 'Добавить в избранное' }}</button>
                         </div>
@@ -58,4 +59,7 @@
             @endforeach
         </div>
     </div>
+    @if (session('success'))
+        
+    @endif
 @endsection
