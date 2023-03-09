@@ -30,6 +30,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @if (Auth::user())
                     <ul class="navbar-nav me-auto">
                         <li>
                             <a class="navbar-brand" href="{{ route('products.index') }}">Товары</a>
@@ -44,7 +45,7 @@
                             </form>
                         </li>
                     </ul>
-
+                    @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
