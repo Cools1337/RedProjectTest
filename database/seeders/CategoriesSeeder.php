@@ -14,7 +14,18 @@ class CategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = CategoriesHelper::getCategories();
+        $categories = [
+            'Компьютеры',
+            'Телефоны',
+            'Телевизоры',
+            'Фотоаппараты',
+            'Аудиотехника',
+            'Кухонные приборы',
+            'Стиральные машины',
+            'Холодильники',
+            'Мебель',
+            'Одежда',
+        ];
 
         foreach ($categories as $category) {
             Category::create(['name' => $category]);
